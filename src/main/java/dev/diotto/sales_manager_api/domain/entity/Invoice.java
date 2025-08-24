@@ -6,11 +6,10 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "invoice")
+@Table(name = "invoices")
 public class Invoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleId;
     private String invoiceNumber;
     private LocalDateTime generatedAt;
@@ -20,5 +19,8 @@ public class Invoice {
     private String danfePath;
 
     @OneToOne
+    @MapsId
+    @JoinColumn(name = "sale_id")
     private Sale sale;
+
 }
