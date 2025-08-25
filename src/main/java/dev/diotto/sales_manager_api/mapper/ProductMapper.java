@@ -1,6 +1,7 @@
 package dev.diotto.sales_manager_api.mapper;
 
 import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
+import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
 import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
 import dev.diotto.sales_manager_api.domain.entity.Product;
 import org.mapstruct.Mapper;
@@ -16,4 +17,7 @@ public interface ProductMapper {
 
     //For converting update DTO to entity
     void updateProductEntity(UpdtProductRequestDTO updateDTO, @MappingTarget Product product);
+
+    //For converting Product to ProductResponseDTO
+    ProductResponseDTO toProductResponseDTO(Product product);
 }

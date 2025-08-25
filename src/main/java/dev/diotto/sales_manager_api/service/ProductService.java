@@ -1,7 +1,10 @@
 package dev.diotto.sales_manager_api.service;
 
+import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
+import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
 import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
 import dev.diotto.sales_manager_api.domain.entity.Product;
+import dev.diotto.sales_manager_api.mapper.ProductMapper;
 import dev.diotto.sales_manager_api.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +16,18 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public ProductResponseDTO createProduct(ProductDTO productDTO) {
+        Product newProduct = productMapper.toProductEntity(productDTO);
+        newProduct = productRepository.save(newProduct);
+        return productMapper.toProductResponseDTO(newProduct);
     }
 
     public List<Product> getAllProducts() {
