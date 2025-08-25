@@ -7,12 +7,15 @@ import dev.diotto.sales_manager_api.domain.entity.Product;
 import dev.diotto.sales_manager_api.mapper.ProductMapper;
 import dev.diotto.sales_manager_api.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -27,22 +30,27 @@ public class ProductService {
     public ProductResponseDTO createProduct(ProductDTO productDTO) {
         Product newProduct = productMapper.toProductEntity(productDTO);
         newProduct = productRepository.save(newProduct);
+        log.info("New product created: {}", newProduct.getName());
         return productMapper.toProductResponseDTO(newProduct);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+
+        return products.stream()
+                .map(productMapper::toProductResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    public Product updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
+    public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 
-        if (updateDTO.name() != null) existingProduct.setName(updateDTO.name());
-        if (updateDTO.description() != null) existingProduct.setDescription(updateDTO.description());
-        if (updateDTO.unitPrice() != null) existingProduct.setUnitPrice(updateDTO.unitPrice());
+        productMapper.updateProductEntityFromDTO(updateDTO, existingProduct);
 
-        return productRepository.save(existingProduct);
+        productRepository.save(existingProduct);
+
+        return productMapper.toProductResponseDTO(existingProduct);
     }
 
     public void deleteProduct(Long id) {

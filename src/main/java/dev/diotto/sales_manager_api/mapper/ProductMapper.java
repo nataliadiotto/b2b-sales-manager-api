@@ -16,7 +16,7 @@ public interface ProductMapper {
     Product toProductEntity(ProductDTO productDTO);
 
     //For converting update DTO to entity
-    void updateProductEntity(UpdtProductRequestDTO updateDTO, @MappingTarget Product product);
+    void updateProductEntityFromDTO(UpdtProductRequestDTO updateDTO, @MappingTarget Product product);
 
     //For converting Product to ProductResponseDTO
     ProductResponseDTO toProductResponseDTO(Product product);
