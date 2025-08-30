@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -28,11 +30,18 @@ public class ProductController {
 
     }
 
-//    Pet newPet = petService.registerPet(petDTO);
-//
-//    PetResponseDTO petResponseDTO = new PetResponseDTO(newPet);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//            .body(petResponseDTO);
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<ProductResponseDTO> productResponseDTOS = productService.getAllProducts();
+
+        return ResponseEntity.ok(productResponseDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
+        ProductResponseDTO productResponseDTO = productService.findProductById(id);
+
+        return ResponseEntity.ok(productResponseDTO);
+    }
 
 }
