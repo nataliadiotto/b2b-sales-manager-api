@@ -2,6 +2,7 @@ package dev.diotto.sales_manager_api.controller;
 
 import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
 import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
+import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
 import dev.diotto.sales_manager_api.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,13 @@ public class ProductController {
         List<ProductResponseDTO> responseDTOS = productService.findProductByName(query);
 
         return ResponseEntity.ok(responseDTOS);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody UpdtProductRequestDTO requestDTO) {
+        ProductResponseDTO updateResponseDTO = productService.updateProduct(id, requestDTO);
+
+        return ResponseEntity.ok(updateResponseDTO);
     }
 
     @DeleteMapping("/{id}")
