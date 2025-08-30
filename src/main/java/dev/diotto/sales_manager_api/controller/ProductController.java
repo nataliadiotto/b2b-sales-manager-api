@@ -24,25 +24,32 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid ProductDTO productDTO) {
-        ProductResponseDTO productResponseDTO = productService.createProduct(productDTO);
+        ProductResponseDTO responseDTO = productService.createProduct(productDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(productResponseDTO);
+                .body(responseDTO);
 
     }
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> productResponseDTOS = productService.getAllProducts();
+        List<ProductResponseDTO> responseDTOS = productService.getAllProducts();
 
-        return ResponseEntity.ok(productResponseDTOS);
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
-        ProductResponseDTO productResponseDTO = productService.findProductById(id);
+        ProductResponseDTO responseDTO = productService.findProductById(id);
 
-        return ResponseEntity.ok(productResponseDTO);
+        return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping("/search/{query}")
+    public ResponseEntity<List<ProductResponseDTO>> getProductByName(@PathVariable String query) {
+        List<ProductResponseDTO> responseDTOS = productService.findProductByName(query);
+
+        return ResponseEntity.ok(responseDTOS);
     }
 
     @DeleteMapping("/{id}")

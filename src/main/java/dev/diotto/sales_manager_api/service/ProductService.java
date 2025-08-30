@@ -53,6 +53,17 @@ public class ProductService {
         return productMapper.toProductResponseDTO(productResponseEntity.get());
     }
 
+    public List<ProductResponseDTO> findProductByName(String query) {
+        String searchName = "%" + query.toLowerCase() + "%";
+
+        List<Product> products = productRepository.findByNameContaining(searchName);
+
+        return products.stream()
+                .map(productMapper::toProductResponseDTO)
+                .collect(Collectors.toList());
+
+    }
+
     public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
@@ -67,5 +78,6 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
 
 }
