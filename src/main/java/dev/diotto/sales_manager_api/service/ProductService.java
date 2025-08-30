@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +41,26 @@ public class ProductService {
         return products.stream()
                 .map(productMapper::toProductResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    public ProductResponseDTO findProductById(Long id) {
+        Optional<Product> productResponseEntity = productRepository.findById(id);
+
+        if(productResponseEntity.isEmpty()) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        return productMapper.toProductResponseDTO(productResponseEntity.get());
+    }
+
+    public List<ProductResponseDTO> findProductByName(String query) {
+        String searchName = "%" + query.toLowerCase() + "%";
+
+        List<Product> products = productRepository.findByNameContaining(searchName);
+
+        return products.stream()
+                .map(productMapper::toProductResponseDTO)
+                .collect(Collectors.toList());
+
     }
 
     public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {

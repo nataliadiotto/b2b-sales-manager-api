@@ -7,7 +7,9 @@ import dev.diotto.sales_manager_api.domain.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper
+//Add the correct componentModel attribute to the @Mapper annotation.
+//This tells MapStruct to generate the mapper implementation as a Spring component.
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
     //For converting entity to response DTO
     ProductDTO toProductDTO(Product product);
