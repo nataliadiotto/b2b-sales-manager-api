@@ -9,9 +9,11 @@ import dev.diotto.sales_manager_api.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +44,15 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public ProductResponseDTO findProductById(Long id) {
+        Optional<Product> productResponseEntity = productRepository.findById(id);
+
+        if(productResponseEntity.isEmpty()) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        return productMapper.toProductResponseDTO(productResponseEntity.get());
+    }
+
     public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
@@ -56,6 +67,5 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
-
 
 }
