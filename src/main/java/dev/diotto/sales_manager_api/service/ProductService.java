@@ -65,6 +65,8 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 
+        if (updateDTO.name() != null) {}
+
         productMapper.updateProductEntityFromDTO(updateDTO, existingProduct);
 
         productRepository.save(existingProduct);
