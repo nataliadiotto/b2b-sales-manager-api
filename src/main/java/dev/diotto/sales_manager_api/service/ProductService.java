@@ -53,9 +53,7 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> findProductByName(String query) {
-        String searchName = "%" + query.toLowerCase() + "%";
-
-        List<Product> products = productRepository.findByNameContaining(searchName);
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(query);
 
         return products.stream()
                 .map(productMapper::toProductResponseDTO)
@@ -66,6 +64,8 @@ public class ProductService {
     public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+
+        if (updateDTO.name() != null) {}
 
         productMapper.updateProductEntityFromDTO(updateDTO, existingProduct);
 
