@@ -53,9 +53,7 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> findProductByName(String query) {
-        String searchName = "%" + query.toLowerCase() + "%";
-
-        List<Product> products = productRepository.findByNameContaining(searchName);
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(query);
 
         return products.stream()
                 .map(productMapper::toProductResponseDTO)
