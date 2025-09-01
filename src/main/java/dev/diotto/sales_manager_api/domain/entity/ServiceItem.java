@@ -39,6 +39,6 @@ public class ServiceItem {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    private boolean active = true;
+    @Setter private boolean active = true;
 
 }

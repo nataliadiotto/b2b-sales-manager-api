@@ -1,9 +1,8 @@
 package dev.diotto.sales_manager_api.mapper;
 
-import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
-import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
-import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
+import dev.diotto.sales_manager_api.domain.dto.*;
 import dev.diotto.sales_manager_api.domain.entity.Product;
+import dev.diotto.sales_manager_api.domain.entity.ServiceItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -15,15 +14,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ServiceItemMapper {
     //For converting entity to response DTO
-    ProductDTO toProductDTO(Product product);
+    ServiceItemDTO toServiceItemDTO(ServiceItem serviceItem);
 
     //For converting creation DTO to entity
-    Product toProductEntity(ProductDTO productDTO);
+    ServiceItem toServiceItemEntity(ServiceItemDTO serviceItemDTO);
 
     //For converting update DTO to entity
     @Mapping(target = "id", ignore = true)
-    void updateProductEntityFromDTO(UpdtProductRequestDTO updateDTO, @MappingTarget Product product);
+    void updateServiceItemEntityFromDTO(ServiceItemUpdtRequestDTO updateDTO, @MappingTarget ServiceItem serviceItem);
 
     //For converting Product to ProductResponseDTO
-    ProductResponseDTO toProductResponseDTO(Product product);
+    ServiceItemResponseDTO toServiceItemResponseDTO(ServiceItem serviceItem);
 }

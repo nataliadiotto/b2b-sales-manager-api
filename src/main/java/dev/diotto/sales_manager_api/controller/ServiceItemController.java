@@ -1,9 +1,6 @@
 package dev.diotto.sales_manager_api.controller;
 
-import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
-import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
-import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
-import dev.diotto.sales_manager_api.service.ProductService;
+import dev.diotto.sales_manager_api.domain.dto.*;
 import dev.diotto.sales_manager_api.service.ServiceItemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/service_item")
+@RequestMapping("/api/v1/service_items")
 public class ServiceItemController {
 
     private final ServiceItemService serviceItemService;
@@ -25,8 +22,8 @@ public class ServiceItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid ProductDTO productDTO) {
-        ProductResponseDTO responseDTO = productService.createProduct(productDTO);
+    public ResponseEntity<ServiceItemResponseDTO> createProduct(@RequestBody @Valid ServiceItemDTO serviceItemDTO) {
+        ServiceItemResponseDTO responseDTO = serviceItemService.createServiceItem(serviceItemDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseDTO);
@@ -34,36 +31,36 @@ public class ServiceItemController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> responseDTOS = productService.getAllProducts();
+    public ResponseEntity<List<ServiceItemResponseDTO>> getAllServiceItems() {
+        List<ServiceItemResponseDTO> responseDTOS = serviceItemService.getAllServiceItems();
 
         return ResponseEntity.ok(responseDTOS);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProduct(@PathVariable Long id) {
-        ProductResponseDTO responseDTO = productService.findProductById(id);
+    public ResponseEntity<ServiceItemResponseDTO> getServiceItem(@PathVariable Long id) {
+        ServiceItemResponseDTO responseDTO = serviceItemService.findServiceItemById(id);
 
         return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/search/{query}")
-    public ResponseEntity<List<ProductResponseDTO>> getProductByName(@PathVariable String query) {
-        List<ProductResponseDTO> responseDTOS = productService.findProductByName(query);
+    public ResponseEntity<List<ServiceItemResponseDTO>> getServiceItemByName(@PathVariable String query) {
+        List<ServiceItemResponseDTO> responseDTOS = serviceItemService.findServiceItemByName(query);
 
         return ResponseEntity.ok(responseDTOS);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody UpdtProductRequestDTO requestDTO) {
-        ProductResponseDTO updateResponseDTO = productService.updateProduct(id, requestDTO);
+    public ResponseEntity<ServiceItemResponseDTO> updateServiceItem(@PathVariable Long id, @RequestBody ServiceItemUpdtRequestDTO requestDTO) {
+        ServiceItemResponseDTO updateResponseDTO = serviceItemService.updateServiceItem(id, requestDTO);
 
         return ResponseEntity.ok(updateResponseDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteServiceItemById(@PathVariable Long id) {
+        serviceItemService.deleteServiceItem(id);
 
         return ResponseEntity.noContent().build();
     }
