@@ -20,7 +20,7 @@ public class Sale {
     private List<SaleItem>  saleItems;
 
     @ManyToOne
-    private Client client;
+    private Company company;
 
     @ManyToOne
     private User user;
