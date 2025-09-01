@@ -2,7 +2,7 @@ package dev.diotto.sales_manager_api.service;
 
 import dev.diotto.sales_manager_api.domain.dto.ProductDTO;
 import dev.diotto.sales_manager_api.domain.dto.ProductResponseDTO;
-import dev.diotto.sales_manager_api.domain.dto.UpdtProductRequestDTO;
+import dev.diotto.sales_manager_api.domain.dto.ProductUpdtRequestDTO;
 import dev.diotto.sales_manager_api.domain.entity.Product;
 import dev.diotto.sales_manager_api.mapper.ProductMapper;
 import dev.diotto.sales_manager_api.repository.ProductRepository;
@@ -61,11 +61,9 @@ public class ProductService {
 
     }
 
-    public ProductResponseDTO updateProduct(Long id, UpdtProductRequestDTO updateDTO) {
+    public ProductResponseDTO updateProduct(Long id, ProductUpdtRequestDTO updateDTO) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
-
-        if (updateDTO.name() != null) {}
 
         productMapper.updateProductEntityFromDTO(updateDTO, existingProduct);
 
